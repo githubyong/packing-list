@@ -24,7 +24,7 @@ type Action =
   | ReturnType<typeof remove>
   | ReturnType<typeof markAllAsUnpacked>;
 
-export const reducer = (items: Item[] = [], action: Action) => {
+export const reducer = (items: Item[] = [], action: Action ) => {
   if (action.type === add.type) {
     const item = createItem(action.payload.name);
     return [...items, item];
