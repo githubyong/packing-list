@@ -1,11 +1,13 @@
 import clsx from 'clsx';
-import { memo, useState } from 'react';
+import {memo, useContext, useState} from 'react';
 import { remove, update } from '../lib/reducer';
-import {updateItem} from "../lib/items";
+import {ItemsContext} from '../context';
 
 
-const Item = ({ item, setItems }) => {
+const Item = ({ item }) => {
   const [editing, setEditing] = useState(false);
+
+  const {dispatch} = useContext(ItemsContext);
 
   return (
     <li className="flex items-center gap-2">
@@ -15,9 +17,8 @@ const Item = ({ item, setItems }) => {
         checked={item.packed}
         id={`toggle-${item.id}`}
         onChange={() =>
-            setItems( items =>
-                updateItem(items,item.id, { packed: !item.packed })
-            )}
+            dispatch(update(item.id, { packed: !item.packed }))
+        }
       />
       <label
         htmlFor={`toggle-${item.id}`}
@@ -29,20 +30,22 @@ const Item = ({ item, setItems }) => {
         value={item.name}
         id={`edit-${item.id}`}
         className={clsx('py-0 text-sm', { hidden: !editing })}
-        onChange={(event) => setItems(update(item.id, { name: event.target.value }))}
+        onChange={(event) =>
+            dispatch(update(item.id, { name: event.target.value }))
+      }
       />
       <div className="flex gap-2">
         <button
           className="px-2 py-0 text-xs"
           aria-label={`Edit "${item.name}"`}
-          onClick={() => setEditing(!editing)}
+          onClick={() => dispatch(setEditing(!editing))}
         >
           {editing ? '💾 Save' : '✍️ Edit'}
         </button>
         <button
           className="px-2 py-0 text-xs"
           aria-label={`Remove "${item.name}"`}
-          onClick={() => setItems(remove(item.id))}
+          onClick={() => dispatch(remove(item.id))}
         >
           🗑 Remove
         </button>
