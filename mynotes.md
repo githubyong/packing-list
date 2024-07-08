@@ -3,6 +3,6 @@
 这个分支(p17) 验证了第17节contextapi的使用
 
 当前使用的是1个context,性能比较糟糕，profiler都是彩色的，很多组件都在渲染。
-![prof17.png](prof17-p1.png)
+![prof17.png](imgs/prof17-p1.png)
 
 第18节将会使用multiple context，提升性能。
