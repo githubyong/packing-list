@@ -6,12 +6,13 @@ import {
 import {ItemsContext} from '../context';
 import ItemList from './item-list';
 import Header from './header';
+import {useItems} from "../hooks";
 
 // useMemo => for values
 // useCallback => for functions
 
 const Application = () => {
-  const { items } = useContext(ItemsContext);
+  const items  = useItems();
 
   const unpackedItems = filterItems(items, { packed: false });
   const packedItems = filterItems(items, { packed: true });
