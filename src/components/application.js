@@ -16,7 +16,7 @@ import MarkAllAsUnpacked from './mark-all-as-unpacked';
 // useCallback => for functions
 
 const Application = () => {
-  const [items, setItems] = useState(()=> getInitialItems());
+  const [items, dispatch] = useReducer(reducer,  getInitialItems());
 
   const unpackedItems = filterItems(items, { packed: false });
   const packedItems = filterItems(items, { packed: true });
@@ -25,20 +25,20 @@ const Application = () => {
   return (
     <main className="flex flex-col gap-8 p-8 mx-auto lg:max-w-4xl">
       <Header  items={items} />
-      <NewItem setItems={setItems} />
+      <NewItem setItems={dispatch} />
       <section className="flex flex-col gap-8 md:flex-row">
         <ItemList
           title="Unpacked Items"
           items={unpackedItems}
-          setItems={setItems}
+          dispatch={dispatch}
         />
         <ItemList
           title="Packed Items"
           items={packedItems}
-          setItems={setItems}
+          dispatch={dispatch}
         />
       </section>
-      <MarkAllAsUnpacked  setItems={setItems} />
+      <MarkAllAsUnpacked  setItems={dispatch} />
     </main>
   );
 };
